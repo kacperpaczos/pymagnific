@@ -6,9 +6,12 @@ import json
 from pathlib import Path
 
 from pymagnific.parsers.jobs_from_template import build_do3d_textures_jobs
-from pymagnific.parsers.workspace_builder import build_workspace_from_spec_files
-from pymagnific.parsers.pipeline_spawn import build_instance_prepare_steps, build_instance_provision_query
+from pymagnific.parsers.pipeline_spawn import (
+    build_instance_prepare_steps,
+    build_instance_provision_query,
+)
 from pymagnific.parsers.template_clone import build_do3d_textures_provision_query
+from pymagnific.parsers.workspace_builder import build_workspace_from_spec_files
 from pymagnific.schemas.workspace import (
     ImageGeneratorPrompt,
     MagnificInstanceBinding,

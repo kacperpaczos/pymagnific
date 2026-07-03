@@ -2,14 +2,14 @@
 
 from __future__ import annotations
 
-from pymagnific.parsers.workspace_builder import (
-    build_ecommerce_instance_from_spec,
-    build_ecommerce_workspace_from_spec,
-)
 from pymagnific.parsers.pipeline_prompts import (
     build_color_generator_prompt,
     build_composite_instructions,
     color_product_addon,
+)
+from pymagnific.parsers.workspace_builder import (
+    build_ecommerce_instance_from_spec,
+    build_ecommerce_workspace_from_spec,
 )
 from pymagnific.schemas.workspace import PipelineInstance, PipelinePrompts
 

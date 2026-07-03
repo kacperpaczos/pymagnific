@@ -1,7 +1,10 @@
-"""Tests for pipeline spawn query builder (v3)."""
+"""Tests for pipeline spawn query builder."""
 
 from __future__ import annotations
 
+import pytest
+
+from pymagnific.core.exceptions import AssetsError
 from pymagnific.parsers.pipeline_spawn import (
     PrepareStep,
     build_instance_prepare_queries,
@@ -26,52 +29,69 @@ def test_child_space_ref():
     assert child_space_ref("produkty-ecommerce", "77") == "produkty-ecommerce-77"
 
 
-def test_build_instance_provision_query_differs_77_vs_79():
-  inst77 = PipelineInstance(
-      pipeline_id="pipeline-77",
-      product_id="77",
-      name="Katalogi spiralowane",
-      prompts=PipelinePrompts(
-          color_generator=ColorGeneratorPrompt(
-              full="spiral catalog color prompt",
-              product_addon="spiral-bound catalog",
-          ),
-          colors=[
-              ColorEntry(id="77-navy", text="deep navy blue matte cover", pilot=True),
-          ],
-          placement_hints=["two spiral catalogs on desk at 45 degrees"],
-          composite_prompt_generator=CompositePromptGenerator(
-              instructions="DL portrait catalog spiral on long edge",
-          ),
-      ),
-      magnific=MagnificInstanceBinding(panel_name="Pipeline #77 - Katalogi"),
-  )
-  inst79 = PipelineInstance(
-      pipeline_id="pipeline-79",
-      product_id="79",
-      name="Zawieszki hotelowe",
-      prompts=PipelinePrompts(
-          color_generator=ColorGeneratorPrompt(
-              full="door hanger color prompt",
-              product_addon="hotel door hanger",
-          ),
-          colors=[ColorEntry(id="79-red", text="bright red cardstock", pilot=True)],
-          placement_hints=["hanging on hotel door handle"],
-          composite_prompt_generator=CompositePromptGenerator(
-              instructions="die-cut handle hole door hanger",
-          ),
-      ),
-      magnific=MagnificInstanceBinding(panel_name="Pipeline #79 - Zawieszki"),
-  )
+def test_build_instance_provision_query_ecommerce_raw():
+    workspace = WorkspaceManifest(
+        meta=WorkspaceMeta(workspace_id="t", space_ref="t"),
+        template=WorkspaceTemplate(template_id="ecommerce_raw", board_file="../templates/ecommerce_raw/board.json"),
+        pipeline_ids=["77", "79"],
+    )
+    inst77 = PipelineInstance(
+        pipeline_id="pipeline-77",
+        product_id="77",
+        name="Katalogi spiralowane",
+        prompts=PipelinePrompts(
+            color_generator=ColorGeneratorPrompt(
+                full="spiral catalog color prompt",
+                product_addon="spiral-bound catalog",
+            ),
+            colors=[
+                ColorEntry(id="77-navy", text="deep navy blue matte cover", pilot=True),
+            ],
+            placement_hints=["two spiral catalogs on desk at 45 degrees"],
+            composite_prompt_generator=CompositePromptGenerator(
+                instructions="DL portrait catalog spiral on long edge",
+            ),
+        ),
+        magnific=MagnificInstanceBinding(panel_name="Pipeline #77 - Katalogi"),
+    )
+    inst79 = PipelineInstance(
+        pipeline_id="pipeline-79",
+        product_id="79",
+        name="Zawieszki hotelowe",
+        prompts=PipelinePrompts(
+            color_generator=ColorGeneratorPrompt(
+                full="door hanger color prompt",
+                product_addon="hotel door hanger",
+            ),
+            colors=[ColorEntry(id="79-red", text="bright red cardstock", pilot=True)],
+            placement_hints=["hanging on hotel door handle"],
+            composite_prompt_generator=CompositePromptGenerator(
+                instructions="die-cut handle hole door hanger",
+            ),
+        ),
+        magnific=MagnificInstanceBinding(panel_name="Pipeline #79 - Zawieszki"),
+    )
 
-  q77 = build_instance_provision_query(inst77)
-  q79 = build_instance_provision_query(inst79)
+    q77 = build_instance_provision_query(inst77, workspace=workspace)
+    q79 = build_instance_provision_query(inst79, workspace=workspace)
 
-  assert "spiral" in q77.lower() or "catalog" in q77.lower()
-  assert "door hanger" in q79.lower() or "hanger" in q79.lower()
-  assert q77 != q79
-  assert "Composite on background" in q77
-  assert "Material variations" not in q77 or "Do NOT add Material" in q77
+    assert "Pipeline #77" in q77 or "77" in q77
+    assert "Pipeline #79" in q79 or "79" in q79
+    assert q77 != q79
+    assert "Material variations" in q77
+    assert "Create photoshoot" in q77
+
+
+def test_build_instance_provision_query_unknown_template_raises():
+    inst = PipelineInstance(
+        pipeline_id="pipeline-1",
+        product_id="1",
+        name="Test",
+        prompts=PipelinePrompts(),
+        magnific=MagnificInstanceBinding(panel_name="Pipeline #1"),
+    )
+    with pytest.raises(AssetsError):
+        build_instance_provision_query(inst, workspace=None)
 
 
 def test_prepare_steps_have_stable_ids():

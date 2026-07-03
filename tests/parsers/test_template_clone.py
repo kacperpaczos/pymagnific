@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
-from pymagnific.parsers.template_clone import build_ecommerce_raw_provision_query
 from pymagnific.parsers.pipeline_spawn import build_instance_provision_query
+from pymagnific.parsers.template_clone import build_ecommerce_raw_provision_query
 from pymagnific.schemas.workspace import (
     ColorEntry,
     ColorGeneratorPrompt,

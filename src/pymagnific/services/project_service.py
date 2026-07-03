@@ -19,6 +19,7 @@ from pymagnific.services.spaces_service import SpacesService
 from pymagnific.services.sync_checkpoint import SyncCheckpoint
 from pymagnific.services.sync_progress import CliSyncProgress, NullSyncProgress, SyncContext
 from pymagnific.services.workspace_store import WorkspaceStore
+from pymagnific.templates.audit import audit_workspace_remote
 from pymagnific.templates.validate import checkpoint_has_upload, validate_workspace
 
 
@@ -117,6 +118,18 @@ class ProjectService:
             self._settings.pkg_root,
             self.project_path(space_ref),
             pipeline_ids=self.product_ids_from_pipeline_ids(pipeline_ids),
+        )
+
+    def audit_workspace_remote(
+        self,
+        space_ref: str,
+        *,
+        pipeline_ids: list[str] | None = None,
+    ) -> dict[str, Any]:
+        return audit_workspace_remote(
+            self.project_path(space_ref),
+            pipeline_ids=self.product_ids_from_pipeline_ids(pipeline_ids),
+            pkg_root=self._settings.pkg_root,
         )
 
     def sync_checkpoint(self, space_ref: str) -> SyncCheckpoint:
@@ -313,6 +326,23 @@ class ProjectService:
             return
         project_dir = self.project_path(space_ref)
         ids = product_ids or self.load_workspace(space_ref).pipeline_ids
+        validation = validate_workspace(
+            self._settings.pkg_root,
+            project_dir,
+            pipeline_ids=ids,
+        )
+        if not validation.get("ok"):
+            fails = [
+                c for c in validation.get("checks", []) if c.get("status") == "fail"
+            ]
+            detail = "; ".join(
+                f"{c.get('scope')}/{c.get('check')}: {c.get('detail', '')}" for c in fails[:5]
+            )
+            raise AssetsError(
+                "exec blocked: local validation failed — "
+                + (detail or "see project validate")
+                + ". Run `project validate` or fix assets."
+            )
         missing_upload: list[str] = []
         for pid in ids:
             inst = self.load_instance(space_ref, pid)

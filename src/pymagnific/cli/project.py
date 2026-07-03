@@ -56,6 +56,21 @@ def project_validate_cmd(
         raise typer.Exit(code=1)
 
 
+@project_app.command("audit")
+def project_audit_cmd(
+    space_ref: str = typer.Argument(..., help="Workspace name"),
+    pipeline: list[str] = typer.Option(None, "--pipeline", help="Pipeline id(s)"),
+    strict: bool = typer.Option(False, "--strict", help="Exit 1 on any failed check"),
+) -> None:
+    """Audit local instance.json vs pulled .remote/board.json (requires bind/pull)."""
+    result = get_project_service().audit_workspace_remote(
+        space_ref, pipeline_ids=pipeline or None
+    )
+    print_json(result)
+    if not result.get("ok"):
+        raise typer.Exit(code=1)
+
+
 @templates_app.command("validate")
 def templates_validate_cmd(
     template_id: str = typer.Argument(..., help="Template id, e.g. ecommerce_raw"),
@@ -161,6 +176,9 @@ def sync_provision_cmd(
         )
     )
     print_json(result)
+    readiness = result.get("asset_readiness") or {}
+    if readiness.get("warning"):
+        typer.echo(f"WARNING: {readiness['warning']}", err=True)
 
 
 @sync_app.command("status")

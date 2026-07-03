@@ -1,4 +1,4 @@
-"""Checkpoint state for v3 sync operations (provision, bind, deploy)."""
+"""Checkpoint state for sync operations (provision, bind, deploy)."""
 
 from __future__ import annotations
 

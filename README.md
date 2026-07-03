@@ -106,6 +106,7 @@ projects/templates/           # kanoniczne szablony (ecommerce_raw, do3d_texture
 pymagnific project templates list
 pymagnific project templates validate ecommerce_raw
 pymagnific project validate my-workspace
+pymagnific project audit my-workspace --strict
 ```
 
 ### Exec (uruchamianie - tylko jawnie)
@@ -121,8 +122,8 @@ Typowy flow:
 2. `project validate <slug>` - lokalne assety i schema
 3. `sync provision --apply` - graf w Magnific (bez uploadu!)
 4. `sync deploy --apply` - **upload assetow wymagany** + prepare list/promptow
-5. reczna weryfikacja w Magnific UI
-6. `exec run` / `exec batch` (zablokowane bez udanego `upload:product`)
+5. `project audit <slug> --strict` - weryfikacja remote vs instance (wymaga `.remote/board.json`)
+6. `exec run` / `exec batch` (zablokowane bez udanego `upload:product` i lokalnej walidacji)
 
 ### Checkpoint i resume (po awarii lub Ctrl+C)
 

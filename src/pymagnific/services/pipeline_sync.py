@@ -20,7 +20,7 @@ from pymagnific.parsers.pipeline_spawn import (
     build_instance_prepare_steps,
     build_instance_provision_query,
 )
-from pymagnific.schemas.workspace import PipelineInstance
+from pymagnific.schemas.workspace import PipelineInstance, WorkspaceManifest
 from pymagnific.services.api_helpers import extract_operation_id, node_creation_id, node_type
 from pymagnific.services.assets_service import AssetsService
 from pymagnific.services.spaces_service import SpacesService
@@ -268,14 +268,55 @@ class PipelineSync:
             if bind_after:
                 ctx.checkpoint.mark_completed(ctx.run_state)
 
+        asset_readiness = self._asset_readiness_summary(space_ref, workspace, instances)
+
         return {
             "dry_run": not apply,
             "space_id": space_id,
             "checkpoint": str(self._store.paths.sync_state_file(space_ref))
             if ctx and ctx.active
             else None,
-            "note": "provision adds pipeline panels to shared Space. No run.",
+            "note": "provision adds pipeline panels to shared Space. No run. Upload assets via deploy.",
+            "asset_readiness": asset_readiness,
             "results": results,
+        }
+
+    def _asset_readiness_summary(
+        self,
+        space_ref: str,
+        workspace: WorkspaceManifest,
+        instances: list[PipelineInstance],
+    ) -> dict[str, Any]:
+        from pymagnific.templates.registry import required_asset_slots
+
+        template_id = workspace.template.template_id if workspace.template else ""
+        slots = required_asset_slots(get_settings().pkg_root, template_id)
+        required = [s for s in slots if s.required]
+        missing = 0
+        ready = 0
+        for instance in instances:
+            inst_dir = self._store.paths.instance_dir(space_ref, instance.product_id)
+            has_all = True
+            for slot in required:
+                rel = getattr(instance.assets, slot.slot, "")
+                if not rel or not (inst_dir / rel).is_file():
+                    has_all = False
+                    break
+            if has_all:
+                ready += 1
+            else:
+                missing += 1
+        warning = None
+        if missing:
+            warning = (
+                f"{missing}/{len(instances)} instance(s) missing required local product asset; "
+                "provision does not upload — run sync deploy --apply after adding assets."
+            )
+        return {
+            "instances": len(instances),
+            "assets_ready": ready,
+            "assets_missing": missing,
+            "warning": warning,
         }
 
     async def bind_instances_from_remote(

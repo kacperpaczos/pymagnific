@@ -62,6 +62,29 @@ def load_template_meta(pkg_root: Path, template_id: str) -> dict[str, Any]:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
+def load_template_prompts_json(pkg_root: Path, template_id: str) -> dict[str, Any]:
+    path = template_dir(pkg_root, template_id) / "prompts.json"
+    if not path.is_file():
+        return {}
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def template_required_nodes(pkg_root: Path, template_id: str) -> list[str]:
+    meta = load_template_meta(pkg_root, template_id)
+    raw = meta.get("required_nodes")
+    if isinstance(raw, list):
+        return [str(x) for x in raw]
+    return []
+
+
+def template_panel_names(pkg_root: Path, template_id: str) -> list[str]:
+    meta = load_template_meta(pkg_root, template_id)
+    panels = meta.get("panels")
+    if not isinstance(panels, list):
+        return []
+    return [str(p.get("name", "")) for p in panels if isinstance(p, dict) and p.get("name")]
+
+
 def required_asset_slots(pkg_root: Path, template_id: str) -> list[RequiredAssetSlot]:
     meta = load_template_meta(pkg_root, template_id)
     raw = meta.get("required_assets")

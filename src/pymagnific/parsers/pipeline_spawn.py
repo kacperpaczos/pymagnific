@@ -1,7 +1,8 @@
-"""Build Magnific spaces_edit queries for pipeline instances (v3, single Space)."""
+"""Build Magnific spaces_edit queries for pipeline instances (single shared Space)."""
 
 from __future__ import annotations
 
+from pymagnific.core.exceptions import AssetsError
 from pymagnific.parsers.pipeline_prompts import (
     build_color_generator_prompt,
     build_composite_instructions,
@@ -63,50 +64,11 @@ def build_instance_provision_query(
         return build_ecommerce_raw_provision_query(instance)
     if workspace and workspace.uses_do3d_textures_template():
         return build_do3d_textures_provision_query(instance)
-
-    label = instance.magnific.panel_name or instance.name or f"Pipeline #{instance.product_id}"
-    color_prompt = build_color_generator_prompt(instance)
-    composite_instructions = build_composite_instructions(instance)
-
-    return f"""Add a new independent e-commerce product pipeline for {label} in this Space.
-
-Use exactly 3 new workflow panels grouped under the name "{label}".
-Do NOT modify existing panels. Do NOT add Material variations or Create photoshoot panels.
-
-**1. Input panel** (part of {label})
-- Product: MUST be type creation (upload/reference photo node). NOT image-generator.
-
-**2. Change color panel** (part of {label})
-- Colors list (list, accumulate mode) - leave empty for now
-- Color variation generator (imagen-nano-banana-2, 1k, 1:1) with this prompt:
-{color_prompt}
-- Color variation list (list, replace mode)
-
-Connections in Change color:
-- Product output -> Color variation generator reference
-- Colors list output-texts -> Color variation generator prompt
-- Color variation generator output -> Color variation list images
-
-**3. Composite on background panel** (part of {label})
-- Placement hints (list, accumulate mode) - leave empty for now
-- Background pool: MUST be type creation (upload/reference scene photo). NOT image-generator.
-- Composite prompt generator (prompt-generator, model GEMINI31_PRO) with instructions:
-{composite_instructions}
-- Composite prompt list (list, replace mode)
-- Composite generator (image-generator, imagen-nano-banana-2, 2k, 1:1)
-- Composite output list (list, replace mode)
-
-Connections in Composite:
-- Color variation list output-images -> Composite prompt generator attachments
-- Color variation list output-images -> Composite generator reference
-- Background pool output -> Composite prompt generator attachments
-- Background pool output -> Composite generator reference
-- Placement hints output-texts -> Composite prompt generator prompt
-- Composite prompt generator generated_prompt -> Composite prompt list texts
-- Composite prompt list output-texts -> Composite generator prompt
-- Composite generator output -> Composite output list images
-
-Label all nodes clearly as belonging to {label}. Do not connect this pipeline to other product pipelines."""
+    template_id = workspace.template.template_id if workspace and workspace.template else "unknown"
+    raise AssetsError(
+        f"Unknown or missing template for provision: {template_id!r}. "
+        "Use sync init with a supported template (ecommerce_raw, do3d_textures_2d)."
+    )
 
 
 def build_instance_prepare_steps(
@@ -252,7 +214,7 @@ def build_instance_prepare_queries(
     instance: PipelineInstance,
     workspace: WorkspaceManifest | None = None,
 ) -> list[str]:
-    """Backward-compatible: list of edit query strings."""
+    """Return prepare edit query strings (legacy helper)."""
     return [s.query for s in build_instance_prepare_steps(instance, workspace=workspace)]
 
 
@@ -316,5 +278,5 @@ def build_instance_asset_repair_query(
 
 
 def child_space_ref(parent_ref: str, product_id: str) -> str:
-    """Legacy: separate Space per product (v2). v3 uses one Space."""
+    """Historical per-product space naming (unused in workspace/1)."""
     return f"{parent_ref}-{product_id}"

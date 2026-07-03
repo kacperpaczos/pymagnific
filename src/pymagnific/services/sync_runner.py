@@ -3,7 +3,8 @@
 from __future__ import annotations
 
 import time
-from typing import Any, Awaitable, Callable, TypeVar
+from collections.abc import Awaitable, Callable
+from typing import Any, TypeVar
 
 from pymagnific.schemas.sync_state import SyncPhase
 from pymagnific.services.sync_checkpoint import SyncCheckpoint

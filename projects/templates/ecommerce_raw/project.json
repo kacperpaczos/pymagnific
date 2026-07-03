@@ -3,7 +3,7 @@
     "name": "ecommerce_raw",
     "space_ref": "ecommerce_raw",
     "space_id": "a22583d9-b7b4-43ff-9dbe-bca699c00fc8",
-    "schema_version": "space-project/v2",
+    "schema_version": "space-project/1",
     "description": null
   },
   "sync": {

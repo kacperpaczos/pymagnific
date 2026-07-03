@@ -1,0 +1,651 @@
+{
+  "meta": {
+    "name": "ecommerce_raw",
+    "space_ref": "ecommerce_raw",
+    "space_id": "a22583d9-b7b4-43ff-9dbe-bca699c00fc8",
+    "schema_version": "space-project/v2",
+    "description": null
+  },
+  "sync": {
+    "last_pulled_at": "2026-06-30T11:55:50.784782+00:00",
+    "last_pushed_at": null,
+    "remote_board_hash": "898a9143fe286f92e459d78faca1b31a6356c505ac9d33d4dfedef34de891869",
+    "conflicts": []
+  },
+  "nodes": [
+    {
+      "logical_key": "text_29",
+      "remote": {
+        "id": "04032202-b21a-4f80-b3f2-1063b42c441e",
+        "name": "Text #29"
+      },
+      "type": "text",
+      "panel": "Create photoshoot",
+      "enabled": true,
+      "locked": false,
+      "planned": false,
+      "properties": {
+        "text": "# **Generate photoshoot of your product**\\n## Generate scroll-stopping product shots in seconds.",
+        "color": "transparent"
+      }
+    },
+    {
+      "logical_key": "text_31",
+      "remote": {
+        "id": "15fa3162-915e-4609-a7eb-f48518049f58",
+        "name": "Text #31"
+      },
+      "type": "text",
+      "panel": "Input",
+      "enabled": true,
+      "locked": false,
+      "planned": false,
+      "properties": {
+        "text": "### 👇 Describe the vibe and setting for your product shots",
+        "color": "transparent"
+      }
+    },
+    {
+      "logical_key": "text_26",
+      "remote": {
+        "id": "232003d7-211e-42f7-bc83-dc4cfc6ee2f7",
+        "name": "Text #26"
+      },
+      "type": "text",
+      "panel": "Material variations",
+      "enabled": true,
+      "locked": false,
+      "planned": false,
+      "properties": {
+        "text": "### Click Run to generate the variation 👆",
+        "color": "transparent"
+      }
+    },
+    {
+      "logical_key": "text_16",
+      "remote": {
+        "id": "29df1a5d-f4f6-4ae6-a060-a0737a241c57",
+        "name": "Text #16"
+      },
+      "type": "text",
+      "panel": "Input",
+      "enabled": true,
+      "locked": false,
+      "planned": false,
+      "properties": {
+        "text": "### 👇 **Upload your product photo**",
+        "color": "transparent"
+      }
+    },
+    {
+      "logical_key": "text_30",
+      "remote": {
+        "id": "2e3f66a8-74f1-4ff0-9542-d2abb331aaf3",
+        "name": "Text #30"
+      },
+      "type": "text",
+      "panel": "Create photoshoot",
+      "enabled": true,
+      "locked": false,
+      "planned": false,
+      "properties": {
+        "text": "### Click Run to generate the list 👆",
+        "color": "transparent"
+      }
+    },
+    {
+      "logical_key": "material_generator",
+      "remote": {
+        "id": "3e918b79-62a8-45aa-984c-50a62492075f",
+        "name": "Material variation generator"
+      },
+      "type": "image-generator",
+      "panel": "Material variations",
+      "enabled": true,
+      "locked": false,
+      "planned": false,
+      "properties": {
+        "mode": "imagen-nano-banana-2",
+        "aspectRatio": "1:1",
+        "resolution": "2k",
+        "currentCreationIdentifier": "ubMBgcbQLD"
+      }
+    },
+    {
+      "logical_key": "product",
+      "remote": {
+        "id": "51c5a626-763f-4f62-941d-4a72652fc145",
+        "name": "Product"
+      },
+      "type": "creation",
+      "panel": "Input",
+      "enabled": true,
+      "locked": false,
+      "planned": false,
+      "properties": {
+        "creationIdentifier": "3GjUpKrREY"
+      }
+    },
+    {
+      "logical_key": "text_28",
+      "remote": {
+        "id": "5628eb50-f8a2-4798-a5f3-3682dc6ac2d5",
+        "name": "Text #28"
+      },
+      "type": "text",
+      "panel": "Input",
+      "enabled": true,
+      "locked": false,
+      "planned": false,
+      "properties": {
+        "text": "### 👇 Replace with the material you want to apply",
+        "color": "transparent"
+      }
+    },
+    {
+      "logical_key": "text_25",
+      "remote": {
+        "id": "5c248548-feed-493c-ad79-e2fa4935a1f0",
+        "name": "Text #25"
+      },
+      "type": "text",
+      "panel": "Material variations",
+      "enabled": true,
+      "locked": false,
+      "planned": false,
+      "properties": {
+        "text": "# **Generate** product material variations\\n## Get your product reimagined in the material selected.",
+        "color": "transparent"
+      }
+    },
+    {
+      "logical_key": "text_32",
+      "remote": {
+        "id": "6cfc09cc-43b1-4cf1-835d-10a5f8cb3765",
+        "name": "Text #32"
+      },
+      "type": "text",
+      "panel": "Create photoshoot",
+      "enabled": true,
+      "locked": false,
+      "planned": false,
+      "properties": {
+        "text": "### Click Run to generate the variations 👆",
+        "color": "transparent"
+      }
+    },
+    {
+      "logical_key": "material_prompt_generator",
+      "remote": {
+        "id": "75d4fedb-7f30-444e-a159-600f46254eda",
+        "name": "Material concepts generator"
+      },
+      "type": "prompt-generator",
+      "panel": "Material variations",
+      "enabled": true,
+      "locked": false,
+      "planned": false,
+      "properties": {
+        "model": "CLAUDE_OPUS_4_5",
+        "instructions": "You are a precision assistant for generating instructions for the Nano Banana Pro image model. Your only task is to analyze the provided reference image and generate a single instruction that recreates it with one change: the texture of the main object must be replaced with the texture specified in the @[93110ec6-6005-4290-b6e5-7895078146d4:Material reference]. Describe faithfully from the reference image: composition, framing, lighting, shadows, colors, background, materials of secondary elements, environment, and camera angle. Replace ONLY the texture and surface material of the main object with those from the @[93110ec6-6005-4290-b6e5-7895078146d4:Material reference] IMPORTANT — Main object: DO NOT describe the shape, silhouette, proportions, fit, folds, seams, neckline, sleeves, or any other details of the main object. Refer to it only by name (e.g., \\T-shirt"
+      }
+    },
+    {
+      "logical_key": "7d7f8c92",
+      "remote": {
+        "id": "7d7f8c92-c9d5-4f0b-8708-57fa3aa762b2",
+        "name": "7d7f8c92"
+      },
+      "type": "text",
+      "panel": null,
+      "enabled": true,
+      "locked": false,
+      "planned": false,
+      "properties": {
+        "text": "# Product shots for e-commerce\\nTransform one product photo into a complete content library in minutes.\\nSwap colors, change textures, and generate styled product shots effortlessly.\\nProduce campaign-ready visuals without organizing a photoshoot or hiring a designer.",
+        "color": "transparent"
+      }
+    },
+    {
+      "logical_key": "colors_list",
+      "remote": {
+        "id": "90e897ce-d6ea-4f19-b979-c784a4e3e54e",
+        "name": "Colors list"
+      },
+      "type": "list",
+      "panel": "Change color",
+      "enabled": true,
+      "locked": false,
+      "planned": false,
+      "properties": {
+        "mode": "accumulate"
+      }
+    },
+    {
+      "logical_key": "product_shot_generator",
+      "remote": {
+        "id": "aa40d02c-41f7-4dc4-a9de-e7d04df4d837",
+        "name": "Product shot generator"
+      },
+      "type": "image-generator",
+      "panel": "Create photoshoot",
+      "enabled": true,
+      "locked": false,
+      "planned": false,
+      "properties": {
+        "mode": "imagen-nano-banana-2",
+        "aspectRatio": "1:1",
+        "resolution": "1k",
+        "currentCreationIdentifier": "SOEb2hsUb8"
+      }
+    },
+    {
+      "logical_key": "shots_prompt_list",
+      "remote": {
+        "id": "b0990bf9-3792-4533-b5c5-00889f571a21",
+        "name": "Shots prompt list"
+      },
+      "type": "list",
+      "panel": "Create photoshoot",
+      "enabled": true,
+      "locked": false,
+      "planned": false,
+      "properties": {
+        "mode": "replace"
+      }
+    },
+    {
+      "logical_key": "shot_ideas",
+      "remote": {
+        "id": "bce0893e-af92-44d3-8256-1ae8a5763d65",
+        "name": "Shot ideas"
+      },
+      "type": "list",
+      "panel": "Input",
+      "enabled": true,
+      "locked": false,
+      "planned": false,
+      "properties": {
+        "mode": "accumulate"
+      }
+    },
+    {
+      "logical_key": "text_33",
+      "remote": {
+        "id": "c7e72be7-0da4-4748-9321-e97aa963974a",
+        "name": "Text #33"
+      },
+      "type": "text",
+      "panel": "Change color",
+      "enabled": true,
+      "locked": false,
+      "planned": false,
+      "properties": {
+        "text": "## 👆 Type the colors you want to generate",
+        "color": "transparent"
+      }
+    },
+    {
+      "logical_key": "text_24",
+      "remote": {
+        "id": "d6fdfb72-15dc-4646-9cdc-d54df8ad618b",
+        "name": "Text #24"
+      },
+      "type": "text",
+      "panel": "Change color",
+      "enabled": true,
+      "locked": false,
+      "planned": false,
+      "properties": {
+        "text": "# Product color variations\\n## Generate product images in multiple colors from a single photo.",
+        "color": "transparent"
+      }
+    },
+    {
+      "logical_key": "color_generator",
+      "remote": {
+        "id": "da8bd3fd-8c70-452c-ae12-27db56f36b65",
+        "name": "Color variation generator"
+      },
+      "type": "image-generator",
+      "panel": "Change color",
+      "enabled": true,
+      "locked": false,
+      "planned": false,
+      "properties": {
+        "prompt": "You are an expert in visual editing and material manipulation. Analyze the product and its category, and generate the color variation requested by @[81fe76a7-fff6-48e8-9851-65d58cfbc19c:Colors list] . Change only the color, preserving the original shape, proportions, lighting, perspective, and details. Ensure the color application is realistic, with accurate shadows and highlights, for a clean, professional, and commercially usable result.",
+        "mode": "imagen-nano-banana-2",
+        "aspectRatio": "1:1",
+        "resolution": "1k",
+        "currentCreationIdentifier": "y6bxWubPW9"
+      }
+    },
+    {
+      "logical_key": "shots_prompt_generator",
+      "remote": {
+        "id": "e355f628-6425-4b01-9d39-ab869dde6f95",
+        "name": "Shots prompt generator"
+      },
+      "type": "prompt-generator",
+      "panel": "Create photoshoot",
+      "enabled": true,
+      "locked": false,
+      "planned": false,
+      "properties": {
+        "model": "GEMINI31_PRO"
+      }
+    },
+    {
+      "logical_key": "material_reference",
+      "remote": {
+        "id": "f52cd745-e93f-470d-8e63-a379522ecdfa",
+        "name": "Material reference"
+      },
+      "type": "creation",
+      "panel": "Input",
+      "enabled": true,
+      "locked": false,
+      "planned": false,
+      "properties": {
+        "creationIdentifier": "EqVXlYXuuO"
+      }
+    },
+    {
+      "logical_key": "color_output_list",
+      "remote": {
+        "id": "f92ad176-7244-4b4a-b47e-5a4f04016ba1",
+        "name": "Color variation list"
+      },
+      "type": "list",
+      "panel": "Change color",
+      "enabled": true,
+      "locked": false,
+      "planned": false,
+      "properties": {
+        "mode": "replace"
+      }
+    },
+    {
+      "logical_key": "product_shot_list",
+      "remote": {
+        "id": "fcabc5be-98e1-4a06-821c-790be6879b76",
+        "name": "Product shot list"
+      },
+      "type": "list",
+      "panel": "Create photoshoot",
+      "enabled": true,
+      "locked": false,
+      "planned": false,
+      "properties": {
+        "mode": "replace"
+      }
+    },
+    {
+      "logical_key": "text_18",
+      "remote": {
+        "id": "fe7b0f4a-f98b-4aff-9b6e-2e7ddcc8a498",
+        "name": "Text #18"
+      },
+      "type": "text",
+      "panel": "Change color",
+      "enabled": true,
+      "locked": false,
+      "planned": false,
+      "properties": {
+        "text": "### Click Run to generate the variations 👆",
+        "color": "transparent"
+      }
+    }
+  ],
+  "connections": [
+    {
+      "id": "46ca9bdf-c885-4da2-af56-635720363f11",
+      "from_": {
+        "logical_key": "material_prompt_generator",
+        "port": "generated_prompt"
+      },
+      "to": {
+        "logical_key": "material_generator",
+        "port": "prompt"
+      },
+      "data_type": "text",
+      "status": "active"
+    },
+    {
+      "id": "508edddd-bf16-4e91-a2ff-6f7fb05200ac",
+      "from_": {
+        "logical_key": "shot_ideas",
+        "port": "output-texts"
+      },
+      "to": {
+        "logical_key": "shots_prompt_generator",
+        "port": "prompt"
+      },
+      "data_type": "text",
+      "status": "active"
+    },
+    {
+      "id": "64f97766-a793-4364-8774-ab4af79abfad",
+      "from_": {
+        "logical_key": "color_output_list",
+        "port": "output-images"
+      },
+      "to": {
+        "logical_key": "product_shot_generator",
+        "port": "reference"
+      },
+      "data_type": "image",
+      "status": "active"
+    },
+    {
+      "id": "6bbc7d8f-0f90-4696-97b2-bd2282305708",
+      "from_": {
+        "logical_key": "product_shot_generator",
+        "port": "output"
+      },
+      "to": {
+        "logical_key": "product_shot_list",
+        "port": "images"
+      },
+      "data_type": "image",
+      "status": "active"
+    },
+    {
+      "id": "6ea971c7-ec7d-4d58-b27e-7611d151728a",
+      "from_": {
+        "logical_key": "material_reference",
+        "port": "output"
+      },
+      "to": {
+        "logical_key": "material_prompt_generator",
+        "port": "attachments"
+      },
+      "data_type": "image",
+      "status": "active"
+    },
+    {
+      "id": "86c0961b-2650-42eb-ba59-e78aa64129a4",
+      "from_": {
+        "logical_key": "color_generator",
+        "port": "output"
+      },
+      "to": {
+        "logical_key": "color_output_list",
+        "port": "images"
+      },
+      "data_type": "image",
+      "status": "active"
+    },
+    {
+      "id": "8faf9ca0-e8f7-4f88-bf20-3103556b6224",
+      "from_": {
+        "logical_key": "shots_prompt_generator",
+        "port": "generated_prompt"
+      },
+      "to": {
+        "logical_key": "shots_prompt_list",
+        "port": "texts"
+      },
+      "data_type": "text",
+      "status": "active"
+    },
+    {
+      "id": "bef6b268-b450-44b4-a7ac-6c75c44113ac",
+      "from_": {
+        "logical_key": "material_generator",
+        "port": "output"
+      },
+      "to": {
+        "logical_key": "color_generator",
+        "port": "reference"
+      },
+      "data_type": "image",
+      "status": "active"
+    },
+    {
+      "id": "c448b2ff-f2b6-471b-a7a7-294747c5f43e",
+      "from_": {
+        "logical_key": "colors_list",
+        "port": "output-texts"
+      },
+      "to": {
+        "logical_key": "color_generator",
+        "port": "prompt"
+      },
+      "data_type": "text",
+      "status": "active"
+    },
+    {
+      "id": "c7807a32-553b-4cde-a976-145dd5dde720",
+      "from_": {
+        "logical_key": "shots_prompt_list",
+        "port": "output-texts"
+      },
+      "to": {
+        "logical_key": "product_shot_generator",
+        "port": "prompt"
+      },
+      "data_type": "text",
+      "status": "active"
+    },
+    {
+      "id": "cbba69a3-924f-4b8b-86e1-fef7a169d372",
+      "from_": {
+        "logical_key": "material_reference",
+        "port": "output"
+      },
+      "to": {
+        "logical_key": "material_generator",
+        "port": "reference"
+      },
+      "data_type": "image",
+      "status": "active"
+    },
+    {
+      "id": "cbe20d83-97d4-4dec-a567-5e89cdc0041d",
+      "from_": {
+        "logical_key": "color_output_list",
+        "port": "output-images"
+      },
+      "to": {
+        "logical_key": "shots_prompt_generator",
+        "port": "attachments"
+      },
+      "data_type": "image",
+      "status": "active"
+    },
+    {
+      "id": "ce5f8489-5cbf-4f8f-bee3-ba209f0468a7",
+      "from_": {
+        "logical_key": "product",
+        "port": "output"
+      },
+      "to": {
+        "logical_key": "material_prompt_generator",
+        "port": "attachments"
+      },
+      "data_type": "image",
+      "status": "active"
+    },
+    {
+      "id": "df1938bc-95f3-474f-888a-4d809fe2752f",
+      "from_": {
+        "logical_key": "product",
+        "port": "output"
+      },
+      "to": {
+        "logical_key": "material_generator",
+        "port": "reference"
+      },
+      "data_type": "image",
+      "status": "active"
+    }
+  ],
+  "lists": [
+    {
+      "logical_key": "colors_list",
+      "node_id": "90e897ce-d6ea-4f19-b979-c784a4e3e54e",
+      "mode": "accumulate",
+      "items": [],
+      "locked": false
+    },
+    {
+      "logical_key": "shots_prompt_list",
+      "node_id": "b0990bf9-3792-4533-b5c5-00889f571a21",
+      "mode": "replace",
+      "items": [],
+      "locked": false
+    },
+    {
+      "logical_key": "shot_ideas",
+      "node_id": "bce0893e-af92-44d3-8256-1ae8a5763d65",
+      "mode": "accumulate",
+      "items": [],
+      "locked": false
+    },
+    {
+      "logical_key": "color_output_list",
+      "node_id": "f92ad176-7244-4b4a-b47e-5a4f04016ba1",
+      "mode": "replace",
+      "items": [],
+      "locked": false
+    },
+    {
+      "logical_key": "product_shot_list",
+      "node_id": "fcabc5be-98e1-4a06-821c-790be6879b76",
+      "mode": "replace",
+      "items": [],
+      "locked": false
+    }
+  ],
+  "assets": [
+    {
+      "logical_key": "asset_product",
+      "role": "product_input",
+      "local_path": "assets/by-creation/Product_3GjUpKrREY.png",
+      "sha256": "a1ed63337fe8c7521fba2f293ea7241cbb99a2095d3efabc3177cd96601fc1ea",
+      "bound_node": "product",
+      "remote": {
+        "creation_id": "3GjUpKrREY",
+        "node_id": "51c5a626-763f-4f62-941d-4a72652fc145",
+        "url": "https://pikaso.cdnpk.net/private/production/4556007264/upload.png?token=exp=1783036800~hmac=49b418c13a43efb8b647f81c0121804218ad8b9e0ea7f6b74a6dcf33567878c6"
+      },
+      "locked": false
+    },
+    {
+      "logical_key": "asset_material_reference",
+      "role": "creation",
+      "local_path": "assets/by-creation/Material_reference_EqVXlYXuuO.png",
+      "sha256": "d5684c46f64c0e41999de15610d9180285c4081f4a5df2df6ec02fdeda2aef21",
+      "bound_node": "material_reference",
+      "remote": {
+        "creation_id": "EqVXlYXuuO",
+        "node_id": "f52cd745-e93f-470d-8e63-a379522ecdfa",
+        "url": "https://pikaso.cdnpk.net/private/production/4556007182/image.png?token=exp=1783036800~hmac=d823b601d9f1779e3764a204e82fb5b81595318b1e4984def19cf833d77c0b70"
+      },
+      "locked": false
+    }
+  ],
+  "jobs": [],
+  "pipelines": []
+}

@@ -10,6 +10,7 @@ from pymagnific.core.config import Settings, get_settings
 from pymagnific.services.apps_service import AppsService
 from pymagnific.services.assets_service import AssetsService
 from pymagnific.services.auth_service import AuthService
+from pymagnific.services.project_service import ProjectService
 from pymagnific.services.spaces_service import SpacesService
 from pymagnific.services.webhook_service import WebhookService
 
@@ -32,6 +33,11 @@ def get_spaces_service() -> SpacesService:
 @lru_cache
 def get_assets_service() -> AssetsService:
     return AssetsService()
+
+
+@lru_cache
+def get_project_service() -> ProjectService:
+    return ProjectService(assets=get_assets_service(), spaces=get_spaces_service())
 
 
 @lru_cache

@@ -26,6 +26,12 @@ def _default_runs_dir() -> Path:
     return d
 
 
+def _default_projects_dir() -> Path:
+    d = _PKG_ROOT / "projects"
+    d.mkdir(parents=True, exist_ok=True)
+    return d
+
+
 class Settings(BaseSettings):
     api_key: SecretStr | None = None
     mcp_url: str = "https://mcp.magnific.com"
@@ -36,7 +42,21 @@ class Settings(BaseSettings):
     oauth_scopes: str = "openid profile email offline_access mcp:custom-audience"
     oauth_device_timeout: int = 300
     runs_dir: Path = Field(default_factory=_default_runs_dir)
+    projects_dir: Path = Field(default_factory=_default_projects_dir)
     rest_timeout: float = 60.0
+    log_dir: Path | None = None
+    log_level: str = "INFO"
+    log_to_console: bool = True
+
+    @property
+    def pkg_root(self) -> Path:
+        return _PKG_ROOT
+
+    def resolved_log_dir(self) -> Path:
+        """Log directory: MAGNIFIC_LOG_DIR or ./logs in cwd."""
+        base = self.log_dir.expanduser() if self.log_dir else Path.cwd() / "logs"
+        base.mkdir(parents=True, exist_ok=True)
+        return base
 
     model_config = SettingsConfigDict(
         env_file=str(_ENV_FILE),

@@ -8,6 +8,9 @@ from typing import Any
 
 from pymagnific.clients.magnific_mcp import MagnificMcpClient
 from pymagnific.core.config import Settings, get_settings
+from pymagnific.core.logging import get_logger
+
+log = get_logger("spaces")
 
 
 def _is_terminal_edit_status(status: Any) -> bool:
@@ -24,9 +27,18 @@ def _is_terminal_edit_status(status: Any) -> bool:
 def _is_terminal_run_status(status: Any) -> bool:
     if isinstance(status, dict):
         s = str(status.get("status", "")).lower()
-        if s in ("finished", "failed", "completed", "error", "terminal"):
+        if s in (
+            "finished",
+            "failed",
+            "completed",
+            "completed_with_errors",
+            "error",
+            "terminal",
+        ):
             return True
         if status.get("terminal") is True:
+            return True
+        if status.get("allTerminal") is True:
             return True
     return False
 
@@ -87,17 +99,29 @@ class SpacesService:
     ) -> Any:
         deadline = time.monotonic() + timeout
         last: Any = None
+        poll_n = 0
+        log.info("waiting for spaces_edit %s (timeout %.0fs)", operation_id[:16], timeout)
         while time.monotonic() < deadline:
+            poll_n += 1
             last = await self._mcp.spaces_edit_status(
                 operationId=operation_id,
                 timeoutSeconds=min(poll_seconds, 25),
             )
+            status = last.get("status") if isinstance(last, dict) else str(last)
+            log.info(
+                "spaces_edit %s poll %d status=%s",
+                operation_id[:16],
+                poll_n,
+                status,
+            )
             if _is_terminal_edit_status(last):
+                log.info("spaces_edit %s finished after %d polls", operation_id[:16], poll_n)
                 return last
             hint = 5
             if isinstance(last, dict):
                 hint = int(last.get("poll_after_seconds", hint))
             await asyncio.sleep(hint)
+        log.error("spaces_edit %s timeout after %d polls", operation_id[:16], poll_n)
         raise TimeoutError(f"spaces_edit_status timeout after {timeout}s (last: {last})")
 
     async def wait_for_run(
@@ -109,17 +133,29 @@ class SpacesService:
     ) -> Any:
         deadline = time.monotonic() + timeout
         last: Any = None
+        poll_n = 0
+        log.info("waiting for spaces_run %s (timeout %.0fs)", workflow_run_id[:16], timeout)
         while time.monotonic() < deadline:
+            poll_n += 1
             last = await self._mcp.spaces_run_status(
                 workflow_run_id,
                 timeout_seconds=min(poll_seconds, 25),
             )
+            status = last.get("status") if isinstance(last, dict) else str(last)
+            log.info(
+                "spaces_run %s poll %d status=%s",
+                workflow_run_id[:16],
+                poll_n,
+                status,
+            )
             if _is_terminal_run_status(last):
+                log.info("spaces_run %s finished after %d polls", workflow_run_id[:16], poll_n)
                 return last
             hint = 5
             if isinstance(last, dict):
                 hint = int(last.get("poll_after_seconds", hint))
             await asyncio.sleep(hint)
+        log.error("spaces_run %s timeout after %d polls", workflow_run_id[:16], poll_n)
         raise TimeoutError(f"spaces_run_status timeout after {timeout}s (last: {last})")
 
     async def create_and_edit(
@@ -163,13 +199,31 @@ class SpacesService:
     ) -> dict[str, Any]:
         cost = None
         if simulate:
-            cost = await self._mcp.simulate_spaces(space_id, start_node_id, mode=mode)
+            try:
+                log.info(
+                    "simulate_spaces space=%s start_node=%s mode=%s",
+                    space_id[:12],
+                    start_node_id[:12],
+                    mode,
+                )
+                cost = await self._mcp.simulate_spaces(space_id, start_node_id, mode=mode)
+            except Exception as exc:  # noqa: BLE001
+                log.warning("simulate_spaces failed: %s", exc)
+                cost = {"simulate": "skipped", "reason": "simulate_spaces failed"}
 
+        log.info(
+            "spaces_run space=%s start_node=%s mode=%s",
+            space_id[:12],
+            start_node_id[:12],
+            mode,
+        )
         run_resp = await self._mcp.spaces_run(space_id, start_node_id, mode=mode)
         run_id = _workflow_run_id(run_resp)
         run_status = None
         if run_id:
             run_status = await self.wait_for_run(run_id, timeout=run_timeout)
+        else:
+            log.warning("spaces_run returned no workflowRunIdentifier: %r", run_resp)
 
         return {
             "space_id": space_id,

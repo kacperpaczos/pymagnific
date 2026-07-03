@@ -1,0 +1,35 @@
+{
+  "meta": {
+    "name": "do3d_textures_2d_template",
+    "schema_version": "space-project/1",
+    "description": "Kanoniczny szablon: Input (Product) + Extract 2D (Texture + Print flat)"
+  },
+  "nodes": [
+    {
+      "logical_key": "product",
+      "type": "creation",
+      "panel": "Input",
+      "properties": {}
+    },
+    {
+      "logical_key": "texture_generator",
+      "type": "image-generator",
+      "panel": "Extract 2D",
+      "properties": {
+        "mode": "imagen-nano-banana-2-flash",
+        "aspectRatio": "1:1",
+        "resolution": "1k"
+      }
+    },
+    {
+      "logical_key": "print_flat_generator",
+      "type": "image-generator",
+      "panel": "Extract 2D",
+      "properties": {
+        "mode": "imagen-nano-banana-2-flash",
+        "aspectRatio": "1:1",
+        "resolution": "1k"
+      }
+    }
+  ]
+}

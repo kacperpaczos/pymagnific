@@ -194,11 +194,12 @@ class AssetsService:
         image_path: Path,
         *,
         page_id: str | None = None,
+        space_id: str | None = None,
     ) -> dict[str, Any]:
-        space_id = await self.resolve_space_id(space_ref)
+        resolved_id = space_id or await self.resolve_space_id(space_ref)
         creation_id = await self._upload_local_image(image_path)
         result = await self._mcp.spaces_add_creations(
-            space_id,
+            resolved_id,
             [creation_id],
             page_id=page_id,
         )

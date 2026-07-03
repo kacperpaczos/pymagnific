@@ -1,0 +1,19 @@
+{
+  "schema_version": "template/1",
+  "meta": {
+    "template_id": "do3d_textures_2d",
+    "role": "multiplication_template",
+    "description": "Jeden pipeline per referencja: Product -> Texture generator + Print flat generator"
+  },
+  "required_assets": [
+    {"slot": "product", "logical_key": "product", "required": true, "formats": ["jpg", "jpeg", "png"]}
+  ],
+  "required_nodes": ["product", "texture_generator", "print_flat_generator"],  "panels": [
+    {"name": "Input", "nodes": ["Product"]},
+    {"name": "Extract 2D", "nodes": ["Texture generator", "Print flat generator"]}
+  ],
+  "files": {
+    "board_json": "board.json",
+    "project_json": "project.json"
+  }
+}

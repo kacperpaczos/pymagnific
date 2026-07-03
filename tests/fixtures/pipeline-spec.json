@@ -1,0 +1,166 @@
+{
+  "$schema": "pipeline-spec/v1",
+  "meta": {
+    "name": "ecommerce-two-products",
+    "description": "Dwa produkty drukowane (katalog spiralowany + zawieszki hotelowe) na szablonie ecommerce_raw. Kolory pilot: bialy, czerwony, czarny.",
+    "space_ref": "ecommerce-two-products",
+    "space_id": null,
+    "status": "ready_review",
+    "created": "2026-06-29",
+    "template": "ecommerce_raw"
+  },
+  "assets": {
+    "backgrounds": {
+      "source_dir": "pymagnific/projects/ecommerce_two_products",
+      "project_dir": "assets/backgrounds",
+      "count": 6,
+      "files": [
+        "MVbjt.jpg",
+        "TdKMq.jpg",
+        "WIjf5.jpg",
+        "K29fg.jpg",
+        "KaMnH.jpg",
+        "ONfo4.jpg"
+      ]
+    },
+    "products": {
+      "77": {
+        "product_id": 77,
+        "name": "Katalogi spiralowane",
+        "category": "katalogi-i-broszury",
+        "aspect_ratio": 0.4714,
+        "orientation": "portrait",
+        "source_image": "pymagnific/projects/ecommerce_two_products/pipelines/77/assets/product.jpg",
+        "description_on_image": "Katalog spiralowany DL portrait (~0.47 aspect), metalowa spirala na dlugim boku, nadruk MOMENTS, ilustracja butelki perfum, spot UV na rogach",
+        "paired_backgrounds_pilot": [
+          "MVbjt.jpg",
+          "TdKMq.jpg",
+          "WIjf5.jpg"
+        ],
+        "paired_backgrounds_full": [
+          "MVbjt.jpg",
+          "TdKMq.jpg",
+          "WIjf5.jpg"
+        ],
+        "background_tags": [
+          "biuro",
+          "flat_lay",
+          "polka",
+          "studio",
+          "desk"
+        ]
+      },
+      "79": {
+        "product_id": 79,
+        "name": "Zawieszki",
+        "category": "horeca",
+        "aspect_ratio": 0.4714,
+        "orientation": "portrait",
+        "source_image": "pymagnific/projects/ecommerce_two_products/pipelines/79/assets/product.jpg",
+        "description_on_image": "Zawieszka hotelowa z zaokraglonym wierzcho?kiem i okraglym wycieciem na klamke; nadruki Do Not Disturb / Welcome, ikony ksiezyca i slonca",
+        "paired_backgrounds_pilot": [
+          "K29fg.jpg",
+          "KaMnH.jpg",
+          "ONfo4.jpg"
+        ],
+        "paired_backgrounds_full": [
+          "K29fg.jpg",
+          "KaMnH.jpg",
+          "ONfo4.jpg"
+        ],
+        "background_tags": [
+          "hotel",
+          "recepcja",
+          "drzwi",
+          "wieszak",
+          "horeca"
+        ]
+      }
+    }
+  },
+  "prompts": {
+    "shared": {
+      "negative_fragments": [
+        "stretched proportions",
+        "wrong paper names",
+        "Nautilus EKO",
+        "distorted text",
+        "broken logo"
+      ]
+    },
+    "color_variation_generator": {
+      "model": "imagen-nano-banana-2",
+      "aspect_ratio": "1:1",
+      "resolution": "1k",
+      "prompt_by_product": {
+        "77": "Product type: spiral-bound DL catalog with metal coil on long edge. Change ONLY cover color per Colors list. Keep spiral metal finish readable. Do not alter MOMENTS typography or central perfume-bottle illustration.",
+        "79": "Product type: hotel door hanger with rounded top and circular handle cutout. Change ONLY cardstock background color per Colors list. Preserve all typography, icons, and die-cut shape."
+      }
+    },
+    "colors_list": {
+      "mode": "accumulate",
+      "entries_by_product": {
+        "77": [
+          {
+            "id": "77-color-white",
+            "text": "clean white matte cover, white metal spiral binding, preserve all typography and central perfume-bottle illustration"
+          },
+          {
+            "id": "77-color-red",
+            "text": "vibrant red matte cover, white metal spiral binding, preserve all white typography and line-art illustration"
+          },
+          {
+            "id": "77-color-black",
+            "text": "matte black cover, silver metal spiral coil, preserve all print and spot UV floral corners"
+          }
+        ],
+        "79": [
+          {
+            "id": "79-color-white",
+            "text": "clean white cardstock, preserve Do Not Disturb and Welcome typography, moon and sun icons, die-cut hole"
+          },
+          {
+            "id": "79-color-red",
+            "text": "rich red matte cardstock, gold or white hotel typography, preserve icons and die-cut shape"
+          },
+          {
+            "id": "79-color-black",
+            "text": "matte black premium cardstock, gold or white typography, preserve moon and sun icons and die-cut hole"
+          }
+        ]
+      },
+      "pilot_subset": {
+        "77": [
+          "77-color-white",
+          "77-color-red",
+          "77-color-black"
+        ],
+        "79": [
+          "79-color-white",
+          "79-color-red",
+          "79-color-black"
+        ]
+      }
+    },
+    "placement_hints": {
+      "mode": "accumulate",
+      "entries_by_product": {
+        "77": [
+          "two spiral catalogs overlapping on desk at 45 degree angle, soft studio shadow",
+          "single catalog lying flat on wooden desk, top-down slight angle",
+          "one catalog standing slightly open on office shelf, subtle depth of field"
+        ],
+        "79": [
+          "two door hangers overlapping flat lay on reception counter",
+          "single door hanger hanging on hotel room door handle, natural perspective",
+          "door hangers displayed on small hotel reception stand, eye-level shot"
+        ]
+      }
+    },
+    "composite_prompt_generator": {
+      "model": "GEMINI31_PRO",
+      "note": "Legacy - nieuzywane przy ecommerce_raw"
+    }
+  },
+  "jobs": []
+}

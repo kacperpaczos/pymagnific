@@ -221,5 +221,20 @@ __marimo__/
 .env
 .runs/
 runs/
+logs/
 .tokens/
 output/
+
+# Workspace instances (local) — templates are tracked
+projects/*
+!projects/templates/
+!projects/templates/**/*
+
+projects/**/*.jpg
+projects/**/*.jpeg
+projects/**/*.png
+projects/**/*.webp
+projects/**/*.gif
+projects/**/.remote/
+projects/**/.sync/
+projects/**/__pycache__/

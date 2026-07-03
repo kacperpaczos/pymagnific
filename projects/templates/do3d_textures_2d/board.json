@@ -1,0 +1,61 @@
+{
+  "board": {
+    "uuid": null,
+    "elementsCount": 5,
+    "connectionsCount": 2,
+    "currentPageId": "1"
+  },
+  "page": {
+    "id": "1",
+    "name": "Page 1",
+    "order": 1,
+    "type": "canvas",
+    "isCurrent": true
+  },
+  "nodes": [
+    {
+      "id": "panel-input",
+      "type": "panel",
+      "name": "Input (Pipeline #example)",
+      "groupId": null
+    },
+    {
+      "id": "node-product",
+      "type": "creation",
+      "name": "Product (Pipeline #example)",
+      "groupId": "panel-input"
+    },
+    {
+      "id": "panel-extract",
+      "type": "panel",
+      "name": "Extract 2D (Pipeline #example)",
+      "groupId": null
+    },
+    {
+      "id": "node-texture",
+      "type": "image-generator",
+      "name": "Texture generator (Pipeline #example)",
+      "groupId": "panel-extract"
+    },
+    {
+      "id": "node-print-flat",
+      "type": "image-generator",
+      "name": "Print flat generator (Pipeline #example)",
+      "groupId": "panel-extract"
+    }
+  ],
+  "connections": [
+    {
+      "sourceElementId": "node-product",
+      "sourcePort": "output",
+      "targetElementId": "node-texture",
+      "targetPort": "reference"
+    },
+    {
+      "sourceElementId": "node-product",
+      "sourcePort": "output",
+      "targetElementId": "node-print-flat",
+      "targetPort": "reference"
+    }
+  ]
+}

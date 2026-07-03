@@ -9,8 +9,10 @@ import typer
 from pymagnific.cli.apps import apps_app
 from pymagnific.cli.auth import auth_app
 from pymagnific.cli.main import probe, rate_limits_cmd
+from pymagnific.cli.project import project_app
 from pymagnific.cli.spaces import spaces_app
 from pymagnific.cli.webhook import webhook_app
+from pymagnific.core.config import get_settings
 from pymagnific.core.exceptions import (
     AssetsError,
     AuthError,
@@ -20,12 +22,14 @@ from pymagnific.core.exceptions import (
     MagnificRestError,
     PymagnificError,
 )
+from pymagnific.core.logging import setup_logging
 
 app = typer.Typer(help="Magnific Spaces - REST (API key) + MCP (OAuth)")
 
 app.add_typer(auth_app, name="auth")
 app.add_typer(apps_app, name="apps")
 app.add_typer(spaces_app, name="spaces")
+app.add_typer(project_app, name="project")
 app.add_typer(webhook_app, name="webhook")
 
 app.command()(probe)
@@ -33,6 +37,15 @@ app.command("rate-limits")(rate_limits_cmd)
 
 
 def main() -> None:
+    import logging
+
+    settings = get_settings()
+    level = getattr(logging, str(settings.log_level).upper(), logging.INFO)
+    setup_logging(
+        level=level,
+        log_dir=settings.resolved_log_dir(),
+        console=settings.log_to_console,
+    )
     try:
         app()
     except MagnificRestError as e:
